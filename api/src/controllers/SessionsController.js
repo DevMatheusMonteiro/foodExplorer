@@ -39,7 +39,7 @@ class SessionsController {
   async delete(req, res) {
     res.clearCookie("token");
 
-    res.status(204).json();
+    return res.status(204).json();
   }
 }
 

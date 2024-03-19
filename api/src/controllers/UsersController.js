@@ -16,7 +16,7 @@ class UsersController {
 
     await knex("users").insert({ name, email, password: hashedPassword });
 
-    res.status(201).json();
+    return res.status(201).json();
   }
 
   async update(req, res) {
@@ -65,7 +65,23 @@ class UsersController {
       })
       .where({ id: user.id });
 
-    res.status(200).json();
+    return res.status(200).json();
+  }
+
+  async delete(req, res) {
+    const { id } = req.user;
+
+    const user = await knex("users").where({ id }).first();
+
+    if (!user) {
+      throw new AppError("Unauthorized", 401);
+    }
+
+    await knex("users").where({ id }).delete();
+
+    res.clearCookie("token");
+
+    return res.status(204).json();
   }
 }
 
