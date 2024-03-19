@@ -3,9 +3,26 @@ require("express-async-errors");
 const express = require("express");
 const routes = require("./routes");
 const AppError = require("./utils/AppError");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(
+  cookieParser("ae7573de0e7fecf88daac906d6134d93", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+    maxAge: 30 * 60 * 1000,
+  })
+);
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    credentials: true,
+  })
+);
 
 app.use(routes);
 
