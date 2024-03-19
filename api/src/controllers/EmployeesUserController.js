@@ -25,26 +25,23 @@ class EmployeesUserController {
   }
 
   async update(req, res) {
-    const { name, newEmail, password, role } = req.body;
+    const { name, email, password, role } = req.body;
+    const employeeId = req.params.id;
 
     const { id } = req.user;
 
-    const { email } = req.query;
-
     const employee = await knex("users")
-      .where({ email, role: "employee" })
-      .orWhere({ email, role: "admin" })
+      .where({ id: employeeId })
       .whereNot({ id })
+      .whereNot({ role: "customer" })
       .first();
 
     if (!employee) {
       throw new AppError("Funcionário não encontrado", 404);
     }
 
-    if (newEmail) {
-      const employeeUpdate = await knex("users")
-        .first()
-        .where({ email: newEmail });
+    if (email) {
+      const employeeUpdate = await knex("users").where({ email }).first();
 
       if (employeeUpdate && employeeUpdate.id !== employee.id) {
         throw new AppError("Email já cadastrado!");
@@ -57,7 +54,7 @@ class EmployeesUserController {
 
     employee.name = name ?? employee.name;
     employee.role = role ?? employee.role;
-    employee.email = newEmail ?? employee.email;
+    employee.email = email ?? employee.email;
 
     if (password) {
       const hashedPassword = await hash(password, 8);

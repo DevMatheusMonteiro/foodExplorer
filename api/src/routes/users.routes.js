@@ -24,10 +24,10 @@ usersRoutes.get("/validate", userValidationController.show);
 
 usersRoutes.use(verifyUserAuthorization(["admin"]));
 
+usersRoutes.post("/employee", employeesUserController.create);
 usersRoutes.get("/employee", employeesUserController.index);
 usersRoutes.get("/employee/:id", employeesUserController.show);
-usersRoutes.post("/employee", employeesUserController.create);
-usersRoutes.put("/employee", employeesUserController.update);
+usersRoutes.put("/employee/:id", employeesUserController.update);
 usersRoutes.delete("/employee/:id", employeesUserController.delete);
 
 module.exports = usersRoutes;
