@@ -2,7 +2,7 @@ exports.up = (knex) =>
   knex.schema.createTable("addresses", (table) => {
     table.increments("id");
 
-    table.boolean("selected").default(false);
+    table.boolean("selected").default(true);
 
     table
       .enum("type", ["home", "work", "general"], {
@@ -13,6 +13,9 @@ exports.up = (knex) =>
       .default("general");
 
     table.text("street").notNullable();
+    table.integer("number").notNullable();
+    table.text("neighborhood").notNullable();
+    table.text("complement").notNullable();
     table.text("city").notNullable();
     table.text("state").notNullable();
     table.text("zipCode").notNullable();

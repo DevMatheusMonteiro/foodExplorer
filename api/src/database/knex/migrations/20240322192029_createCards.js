@@ -2,6 +2,8 @@ exports.up = (knex) =>
   knex.schema.createTable("cards", (table) => {
     table.increments("id");
 
+    table.text("nickname").notNullable();
+
     table
       .enum("type", ["credit", "debit"], {
         useNative: true,

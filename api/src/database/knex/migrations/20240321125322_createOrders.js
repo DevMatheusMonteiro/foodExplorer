@@ -2,6 +2,18 @@ exports.up = (knex) =>
   knex.schema.createTable("orders", (table) => {
     table.increments("id");
 
+    table
+      .enum(
+        "status",
+        ["received", "preparing", "delivering", "delivered", "canceled"],
+        {
+          useNative: true,
+          enumName: "status",
+        }
+      )
+      .notNullable()
+      .default("received");
+
     table.decimal("amount").notNullable();
     table.text("paymentMethod").notNullable();
 

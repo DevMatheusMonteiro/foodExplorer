@@ -8,8 +8,6 @@ const categoriesRoutes = Router();
 
 const categoriesController = new CategoriesController();
 
-categoriesRoutes.use(ensureAuthenticated);
-
 categoriesRoutes.get("/", ensureAuthenticated, categoriesController.index);
 
 module.exports = categoriesRoutes;

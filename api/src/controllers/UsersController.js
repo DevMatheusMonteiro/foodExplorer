@@ -25,10 +25,6 @@ class UsersController {
 
     const user = await knex("users").where({ id }).first();
 
-    if (!user) {
-      throw new AppError("Unauthorized", 401);
-    }
-
     if (email) {
       const userUpdate = await knex("users").first().where({ email });
 

@@ -4,6 +4,7 @@ const express = require("express");
 const routes = require("./routes");
 const AppError = require("./utils/AppError");
 const cookieParser = require("cookie-parser");
+const { UPLOAD_FOLDER } = require("./configs/upload");
 const cors = require("cors");
 
 const app = express();
@@ -23,6 +24,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use("/file", express.static(UPLOAD_FOLDER));
 
 app.use(routes);
 
